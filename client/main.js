@@ -1,67 +1,51 @@
-var React = require('react');
-var ReactDom = require('react-dom');
-var _ = require('lodash')
+import ReactDom from 'react-dom';
+import React from 'react';
+import _ from 'lodash';
+import {InputData, GroupData, FormData, OptionData} from './dataClasses.js';
+import {Form} from './components.js';
 
-var Form = class Form extends React.Component{
-	render(){
-		return (
-			<form
-				method={this.props.method || "post"}
-				action={this.props.action}>
-
-			</form>
-		);
-	}
-}
-
-var inputDefaults = {
-	type: "text"
-}
-
-var Input = class Input extends React.Component{
-	constructor(props){
-		super(props);
-		this.options = _.extend(this.props.options, inputDefaults);
-		this.label = props.label;
-	}
-	render(){
-		
-		if(type === "select"){
-			return this.renderSelect(options);
-		}
-	}
-	renderSelect(x){
-		if(!x.options){
-			throw new Error("Select inputs require options");
-		}
-		return (
-			<label htmlFor={x.name}
+const form = new FormData([
+	new GroupData("Group1",[
+		new GroupData("Group1.1", [
+			new InputData("Question 1", {
+				type: "select",
+				options: [
+					 new OptionData("Choice 1"),
+					 new OptionData("Choice 2"),
+					 new OptionData("Choice 3")
+				]
+			}),
+			new InputData("Question 2"),
+		]),
+		new InputData("Question 3"),
+		new InputData("Question 4")
+	]),
+	new GroupData("ConditionalGroup 1", [
+		new InputData('Question A'),
+		new GroupData('Group B', [ new InputData('Question B.A')]),
+		new InputData('MultiQuestion B', {
+			type: "select",
+			options: [
+				 new OptionData("Choice 1"),
+				 new OptionData("Choice 2"),
+				 new OptionData("Choice 3")
+			]}
 		)
-	}
-}
+	], {type: "conditional"}),
+	new GroupData("RepeatedGroup 1", [
+		new InputData('Question A'),
+		new GroupData('Group B', [ new InputData('Question B.A')]),
+		new InputData('MultiQuestion B', {
+			type: "select",
+			options: [
+				 new OptionData("Choice 1"),
+				 new OptionData("Choice 2"),
+				 new OptionData("Choice 3")
+			]}
+		)
+	], {type: "repeated"})
+]);
 
-var Group = class Group extends React.Component{
-	render(){
-		const options = this.props.options;
-		return (
-			<div>
-				<p className={"header" + options.depth}>
-					{options.name}
-				</p>
-				this.props.contents.map(this.createComponent)
-			</div>
-		);
-	}
-	createComponent(x){
-		if(x.contents){
-			return (
-				<Group
-					depth={this.props.depth + 1}
-					options={x}/>
-			);
-		}
-		return (
-			<Input options={x}/>
-		);
-	}
-}
+ReactDom.render(
+	<Form form={form} />,
+	document.getElementById('react-body'));

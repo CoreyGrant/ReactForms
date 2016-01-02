@@ -6,3 +6,35 @@ body {
 a {
   color: #00B7FF;
 }
+
+.group{
+	border-style: solid;
+	border-width: 1px;
+	border-color: black;
+	border-radius: 5px;
+	margin: 3px;
+	padding: 3px;
+}
+
+.header{
+	font-weight: bold;
+}
+
+.header1{
+	font-size: 22px;
+}
+.header2{
+	font-size: 20px;
+}
+.header3{
+	font-size: 18px;
+}
+.header4{
+	font-size: 16px;
+}
+.header5{
+	font-size: 14px;
+}
+.header6{
+	font-size: 12px;
+}
